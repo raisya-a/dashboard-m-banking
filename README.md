@@ -38,4 +38,20 @@ password: admin123), (user: user password: user123)
 - Abstraksi: abstraksi pada program diimplementasikan melalui penggunaan Service Layer pada berkas services.py, yang berfungsi menyembunyikan detail logika pemrograman yang rumit dan hanya menyediakan fungsi sederhana untuk digunakan oleh bagian lain. Ketika pengguna melakukan transfer, bagian tampilan halaman web (views.py) hanya perlu memanggil satu baris fungsi abstrak seperti perintah transfer dana, tanpa perlu mengetahui rumitnya proses pengecekan kecukupan saldo, penguncian database, hingga kalkulasi pengurangan dan penambahan saldo di balik layar.
 
 6. Screenshot Tampilan Program:
+- Dashboard User
 <img width="1600" height="795" alt="WhatsApp Image 2026-06-03 at 21 17 40" src="https://github.com/user-attachments/assets/ed0397eb-29e9-4641-875e-12771caf286d" />
+
+- Kartu Wallet Virtual
+<img width="1600" height="792" alt="WhatsApp Image 2026-06-03 at 21 17 40 (1)" src="https://github.com/user-attachments/assets/b9a34399-61e3-47d0-9b93-70094b48e618" />
+
+- Transfer Dana
+<img width="1600" height="795" alt="WhatsApp Image 2026-06-03 at 21 17 41" src="https://github.com/user-attachments/assets/52dbbfae-9f23-416a-af1b-124e172593be" />
+
+- Top Up Saldo
+<img width="1600" height="792" alt="WhatsApp Image 2026-06-03 at 21 17 41 (1)" src="https://github.com/user-attachments/assets/1ca6f70b-9b90-46a1-9211-a341215ec8e4" />
+
+- Riwayat Transfer
+<img width="1600" height="787" alt="WhatsApp Image 2026-06-03 at 21 17 41 (2)" src="https://github.com/user-attachments/assets/3804816d-17ac-48f9-a9d2-d53bdb489f19" />
+
+- Notifikasi
+<img width="1600" height="799" alt="WhatsApp Image 2026-06-03 at 21 17 42" src="https://github.com/user-attachments/assets/197349d7-e7db-438a-9f25-e9a2b60d2f5e" />
