@@ -38,3 +38,4 @@ password: admin123), (user: user password: user123)
 - Abstraksi: abstraksi pada program diimplementasikan melalui penggunaan Service Layer pada berkas services.py, yang berfungsi menyembunyikan detail logika pemrograman yang rumit dan hanya menyediakan fungsi sederhana untuk digunakan oleh bagian lain. Ketika pengguna melakukan transfer, bagian tampilan halaman web (views.py) hanya perlu memanggil satu baris fungsi abstrak seperti perintah transfer dana, tanpa perlu mengetahui rumitnya proses pengecekan kecukupan saldo, penguncian database, hingga kalkulasi pengurangan dan penambahan saldo di balik layar.
 
 6. Screenshot Tampilan Program:
+<img width="1600" height="795" alt="WhatsApp Image 2026-06-03 at 21 17 40" src="https://github.com/user-attachments/assets/ed0397eb-29e9-4641-875e-12771caf286d" />
