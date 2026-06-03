@@ -55,3 +55,39 @@ password: admin123), (user: user password: user123)
 
 - Notifikasi
 <img width="1600" height="799" alt="WhatsApp Image 2026-06-03 at 21 17 42" src="https://github.com/user-attachments/assets/197349d7-e7db-438a-9f25-e9a2b60d2f5e" />
+
+- Report (User)
+<img width="1600" height="774" alt="WhatsApp Image 2026-06-03 at 21 17 42 (1)" src="https://github.com/user-attachments/assets/b8c7737f-cb51-474d-83b6-dee5597983ec" />
+
+- Halaman Login
+<img width="1600" height="780" alt="WhatsApp Image 2026-06-03 at 21 17 42 (3)" src="https://github.com/user-attachments/assets/db4b11b8-41d4-4e98-ad4c-f802b649fbf7" />
+
+- Daftar Akun User
+<img width="1600" height="777" alt="WhatsApp Image 2026-06-03 at 21 17 43" src="https://github.com/user-attachments/assets/a2f9f867-2e3c-46a5-b842-96f939b76209" />
+
+- Dashboard Admin
+<img width="1600" height="795" alt="WhatsApp Image 2026-06-03 at 21 17 43 (1)" src="https://github.com/user-attachments/assets/c73aaaee-1bc0-47c8-8e51-6f3c164c2f1b" />
+
+- Data User
+<img width="1600" height="797" alt="WhatsApp Image 2026-06-03 at 21 17 43 (2)" src="https://github.com/user-attachments/assets/6bafbbb7-1dc9-4973-866f-8a5862a2b19d" />
+
+- Data Admin
+<img width="1600" height="798" alt="WhatsApp Image 2026-06-03 at 21 17 44" src="https://github.com/user-attachments/assets/046359e0-f992-4492-a433-ee0ea1235e6c" />
+
+- Aktivitas Login/Logout
+<img width="1600" height="799" alt="WhatsApp Image 2026-06-03 at 21 17 44 (1)" src="https://github.com/user-attachments/assets/bda5edc7-e578-4cdd-97c3-0c7ab6e0475b" />
+
+- History Transaksi User
+<img width="1600" height="796" alt="WhatsApp Image 2026-06-03 at 21 17 44 (2)" src="https://github.com/user-attachments/assets/fe219dc5-8c5b-40f7-90c4-ae174ec201f5" />
+
+- Top Up Pending
+<img width="1600" height="797" alt="WhatsApp Image 2026-06-03 at 21 17 45" src="https://github.com/user-attachments/assets/5b29c70d-a193-4f84-9b65-ff2d076a6c2f" />
+
+- Report User
+<img width="1600" height="796" alt="WhatsApp Image 2026-06-03 at 21 17 45 (1)" src="https://github.com/user-attachments/assets/dadda303-ae66-4a02-856b-b54696ddfb27" />
+
+- Tambah Akun User
+<img width="1600" height="781" alt="WhatsApp Image 2026-06-03 at 21 17 45 (2)" src="https://github.com/user-attachments/assets/2a5af775-6eca-4b48-b0ea-cbfd303519b5" />
+
+- Tambah Akun Admin
+<img width="1600" height="789" alt="WhatsApp Image 2026-06-03 at 21 17 54" src="https://github.com/user-attachments/assets/2557ef60-d81a-4d48-a846-40dd782b2a02" />
