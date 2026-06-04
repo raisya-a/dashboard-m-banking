@@ -28,7 +28,7 @@
 - Role User : (user: user, password: user123)
 
 5. Penjelasan Implementasi OOP:
-1. Inheritance / Pewarisan
+1.Inheritance / Pewarisan
 Inheritance adalah konsep ketika sebuah class mewarisi sifat atau fungsi dari class lain. Pada project ini, inheritance diterapkan di beberapa bagian.
 
 Contoh 1: Custom User
