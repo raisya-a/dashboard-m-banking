@@ -38,7 +38,7 @@ accounts/models.py
 
 Class User mewarisi AbstractUser dari Django.
 
-Kode:
+Kode:  
 class User(AbstractUser):
 
 Artinya:
@@ -50,21 +50,21 @@ Jadi, class User mewarisi fitur bawaan Django, lalu dikembangkan sesuai kebutuha
 
 Contoh 2: Form Django
 
-File:
+File:  
 accounts/forms.py  
 wallet/forms.py  
 reports/forms.py  
 
 Beberapa form mewarisi class bawaan Django.
 
-Contoh:
-class RegisterForm(forms.ModelForm):
-class LoginForm(forms.Form):
-class TransferForm(forms.Form):
-class TopUpForm(forms.Form):
-class ReportForm(forms.Form):
+Contoh:  
+class RegisterForm(forms.ModelForm):  
+class LoginForm(forms.Form):  
+class TransferForm(forms.Form):  
+class TopUpForm(forms.Form):  
+class ReportForm(forms.Form):  
 
-Artinya:
+Artinya:  
 - Form project mewarisi kemampuan validasi dari Django Form.
 - Kita tinggal menambahkan field dan aturan validasi sendiri.
 - Contohnya validasi password, konfirmasi password, PIN, nominal transfer, dan data user.
@@ -72,16 +72,16 @@ Artinya:
 
 Contoh 3: Class Transaksi
 
-File:
-wallet/transaction_types.py
-wallet/abstractions.py
+File:  
+wallet/transaction_types.py  
+wallet/abstractions.py  
 
 Class transaksi seperti TopUpTransaction, TransferInTransaction, dan TransferOutTransaction mewarisi BaseTransaction.
 
-Contoh:
-class TopUpTransaction(BaseTransaction):
-class TransferInTransaction(BaseTransaction):
-class TransferOutTransaction(BaseTransaction):
+Contoh:  
+class TopUpTransaction(BaseTransaction):  
+class TransferInTransaction(BaseTransaction):  
+class TransferOutTransaction(BaseTransaction):  
 
 Artinya:
 - Semua transaksi mewarisi atribut dan method dasar dari BaseTransaction.
@@ -89,8 +89,7 @@ Artinya:
 - Setiap class transaksi tinggal membuat prosesnya masing-masing melalui method process().
 
 
-Kesimpulan Inheritance:
-Inheritance diterapkan agar class baru bisa memakai fitur class induk, sehingga kode lebih rapi dan tidak perlu menulis ulang fungsi yang sama.
+Kesimpulan Inheritance: Inheritance diterapkan agar class baru bisa memakai fitur class induk, sehingga kode lebih rapi dan tidak perlu menulis ulang fungsi yang sama.
 
 
 2. Encapsulation / Enkapsulasi
@@ -98,16 +97,16 @@ Encapsulation adalah konsep membungkus data dan proses di dalam class, sehingga 
 
 Contoh utama:
 
-File:
-wallet/services.py
+File:  
+wallet/services.py  
 
-Class:
-WalletService
+Class:  
+WalletService  
 
-Kode:
-class WalletService:
-    def __init__(self, user):
-        self.__user = user
+Kode:  
+class WalletService:  
+    def __init__(self, user):  
+        self.__user = user  
 
     def get_balance(self):
         return self.__user.balance
@@ -129,32 +128,28 @@ Penjelasan:
 - Perubahan saldo dilakukan melalui method increase_balance() dan decrease_balance().
 - Jika saldo tidak cukup, method decrease_balance() akan menolak transaksi.
 
-Contoh penggunaan:
-TransferService tidak langsung mengubah saldo dengan cara asal-asalan.
-TransferService memanggil:
+Contoh penggunaan:  
+TransferService tidak langsung mengubah saldo dengan cara asal-asalan.  
+TransferService memanggil:  
 
-WalletService(sender).decrease_balance(amount)
-WalletService(receiver).increase_balance(amount)
+WalletService(sender).decrease_balance(amount)  
+WalletService(receiver).increase_balance(amount)  
 
-Artinya:
+Artinya:  
 - Saldo pengirim dikurangi lewat method khusus.
 - Saldo penerima ditambah lewat method khusus.
 - Logic validasi saldo tetap aman di dalam class.
 
-Kesimpulan Encapsulation:
-Encapsulation diterapkan agar data penting seperti saldo wallet tidak diubah langsung dari sembarang tempat, tetapi melalui method yang sudah memiliki aturan validasi.
+Kesimpulan Encapsulation: Encapsulation diterapkan agar data penting seperti saldo wallet tidak diubah langsung dari sembarang tempat, tetapi melalui method yang sudah memiliki aturan validasi.
 
 
 3. Abstraction / Abstraksi
+Abstraction adalah konsep menyembunyikan detail proses dan hanya menampilkan fungsi penting yang perlu dipakai. Pada project ini, abstraction diterapkan pada class transaksi.
 
-Abstraction adalah konsep menyembunyikan detail proses dan hanya menampilkan fungsi penting yang perlu dipakai.
+File:  
+wallet/abstractions.py  
 
-Pada project ini, abstraction diterapkan pada class transaksi.
-
-File:
-wallet/abstractions.py
-
-Kode:
+Kode:  
 from abc import ABC, abstractmethod
 
 class TransactionInterface(ABC):
@@ -170,9 +165,9 @@ Penjelasan:
 
 Class BaseTransaction juga menjadi dasar transaksi.
 
-Kode:
-class BaseTransaction(TransactionInterface):
-    prefix = "TRX"
+Kode:  
+class BaseTransaction(TransactionInterface):  
+    prefix = "TRX"  
 
     def __init__(self, user, amount, target_user=None, description=""):
         self.user = user
@@ -191,42 +186,38 @@ Penjelasan:
 - Setiap transaksi tidak perlu membuat kode transaksi dari nol.
 - Yang wajib diatur oleh class turunan hanyalah process().
 
-Contoh:
-File:
-wallet/transaction_types.py
+Contoh:  
+File:  
+wallet/transaction_types.py  
 
-Class:
-TopUpTransaction
-TransferInTransaction
-TransferOutTransaction
+Class:  
+TopUpTransaction  
+TransferInTransaction  
+TransferOutTransaction  
 
 Masing-masing class memiliki method process().
 
-Kesimpulan Abstraction:
-Abstraction diterapkan agar view/service cukup memanggil method process(), tanpa perlu tahu detail bagaimana transaksi top up, transfer masuk, atau transfer keluar disimpan ke database.
+Kesimpulan Abstraction: Abstraction diterapkan agar view/service cukup memanggil method process(), tanpa perlu tahu detail bagaimana transaksi top up, transfer masuk, atau transfer keluar disimpan ke database.
 
 
 4. Polymorphism / Polimorfisme
+Polymorphism adalah konsep ketika beberapa class memiliki method yang sama, tetapi isi dan hasilnya berbeda. Pada project ini, polymorphism diterapkan pada method process() di class transaksi.
 
-Polymorphism adalah konsep ketika beberapa class memiliki method yang sama, tetapi isi dan hasilnya berbeda.
+File:  
+wallet/transaction_types.py  
 
-Pada project ini, polymorphism diterapkan pada method process() di class transaksi.
+Class:  
+TopUpTransaction  
+TransferInTransaction  
+TransferOutTransaction  
 
-File:
-wallet/transaction_types.py
+Ketiganya sama-sama memiliki method:  
 
-Class:
-TopUpTransaction
-TransferInTransaction
-TransferOutTransaction
-
-Ketiganya sama-sama memiliki method:
-
-process()
+process()  
 
 Tetapi isi prosesnya berbeda.
 
-Contoh 1:
+Contoh 1:  
 TopUpTransaction.process()
 
 Fungsi:
@@ -234,8 +225,8 @@ Fungsi:
 - Jenis transaksi adalah topup.
 - Deskripsi transaksi adalah top up saldo berhasil.
 
-Contoh 2:
-TransferOutTransaction.process()
+Contoh 2:  
+TransferOutTransaction.process()  
 
 Fungsi:
 - Membuat data transaksi keluar.
@@ -243,8 +234,8 @@ Fungsi:
 - Digunakan untuk pengirim.
 - Saldo setelah transaksi adalah saldo pengirim setelah dikurangi.
 
-Contoh 3:
-TransferInTransaction.process()
+Contoh 3:  
+TransferInTransaction.process()  
 
 Fungsi:
 - Membuat data transaksi masuk.
@@ -254,7 +245,7 @@ Fungsi:
 
 Walaupun method yang dipanggil sama, yaitu process(), hasilnya berbeda sesuai object transaksi.
 
-Contoh konsep:
+Contoh konsep:  
 transactions = [
     TopUpTransaction(user, 50000),
     TransferOutTransaction(sender, 25000, receiver),
@@ -268,8 +259,7 @@ Penjelasan:
 - Semua object dipanggil dengan method yang sama, yaitu process().
 - Tetapi setiap object menjalankan proses berbeda sesuai class masing-masing.
 
-Kesimpulan Polymorphism:
-Polymorphism diterapkan agar beberapa jenis transaksi bisa diproses dengan nama method yang sama, tetapi menghasilkan data transaksi yang berbeda sesuai jenisnya.
+Kesimpulan Polymorphism: Polymorphism diterapkan agar beberapa jenis transaksi bisa diproses dengan nama method yang sama, tetapi menghasilkan data transaksi yang berbeda sesuai jenisnya.
 
 
 KESIMPULAN AKHIR
@@ -301,8 +291,6 @@ Diterapkan pada:
 - TransferInTransaction.process()
 - TransferOutTransaction.process()
 - Method sama, tetapi isi proses berbeda
-
-Dengan penerapan OOP ini, kode project menjadi lebih rapi, mudah dipahami, mudah dikembangkan, dan logic bisnis seperti transfer, top up, saldo, dan transaksi menjadi lebih terstruktur.
 
 6. Screenshot Tampilan Program:
 - Dashboard User
