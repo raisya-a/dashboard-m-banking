@@ -153,7 +153,7 @@ wallet/abstractions.py
 Kode:  
 from abc import ABC, abstractmethod
 
-```python
+```
 class TransactionInterface(ABC):
     @abstractmethod
     def process(self):
@@ -170,7 +170,7 @@ Class BaseTransaction juga menjadi dasar transaksi.
 
 Kode:  
 
-```python
+```
 class BaseTransaction(TransactionInterface):  
         prefix = "TRX"  
         def __init__(self, user, amount, target_user=None, description=""):
@@ -251,7 +251,7 @@ Fungsi:
 Walaupun method yang dipanggil sama, yaitu process(), hasilnya berbeda sesuai object transaksi.
 
 Contoh konsep:  
-```python
+```
 transactions = [
     TopUpTransaction(user, 50000),
     TransferOutTransaction(sender, 25000, receiver),
