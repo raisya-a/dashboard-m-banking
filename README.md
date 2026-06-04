@@ -20,12 +20,12 @@
 7) Paste http://127.0.0.1:8000/ di browser
 8) Dashboard sudah bisa dijalankan
 9) Akun yang tersedia :
-Role Admin :
-user: admin
-password: admin 123
-Role User :
-user: user
-password: user123
+| Role Admin :
+user: admin,
+password: admin 123 |
+| Role User :
+user: user,
+password: user123 |
 
 5. Penjelasan Implementasi OOP:
 - Enkapsulasi: enkapsulasi pada program diterapkan dengan membungkus data sensitif seperti saldo, nomor akun, dan riwayat transaksi ke dalam kelas model tertentu (misalnya kelas Wallet di models.py), di mana data tersebut tidak boleh diubah secara sembarangan dari luar tanpa melalui metode validasi yang aman. Segala perubahan saldo atau pembaruan status akun wajib melewati fungsi internal yang telah ditentukan di dalam kelas tersebut atau melalui berkas services.py guna menjaga integritas dan keamanan data finansial pengguna.
