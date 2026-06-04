@@ -1,6 +1,6 @@
 # dashboard-m-banking
 
-1. Deskripsi Project: Proyek E-Wallet merupakan sebuah aplikasi dompet digital yang dirancang untuk memudahkan pengguna dalam melakukan transaksi keuangan secara elektronik. Sistem ini memungkinkan pengguna untuk menyimpan saldo, melakukan pengisian saldo (top-up), transfer dana, serta melihat riwayat transaksi dengan lebih cepat dan praktis dibandingkan penggunaan uang tunai.
+1. Deskripsi Project: Proyek E-Wallet merupakan sebuah dashboard dompet digital yang dirancang untuk memudahkan pengguna dalam melakukan transaksi keuangan secara elektronik. Sistem ini memungkinkan pengguna untuk menyimpan saldo, melakukan pengisian saldo (top-up), transfer dana, serta melihat riwayat transaksi dengan lebih cepat dan praktis dibandingkan penggunaan uang tunai.
 
 2. Anggota Kelompok:
 - Fahrul Firmansyah (25051204128) 
