@@ -104,25 +104,26 @@ Class:
 WalletService  
 
 Kode:  
-class WalletService:  
-    def __init__(self, user):  
-        self.__user = user  
 
-    def get_balance(self):
-        return self.__user.balance
+    class WalletService:  
+        def __init__(self, user):  
+            self.__user = user 
+        
+        def get_balance(self):
+            return self.__user.balance
+        
+        def increase_balance(self, amount):
+            self.__user.balance += Decimal(amount)
+            self.__user.save(update_fields=["balance"])
+        
+        def decrease_balance(self, amount):
+            amount = Decimal(amount)
+            if self.__user.balance < amount:
+                raise ValueError("Saldo tidak mencukupi.")
+            self.__user.balance -= amount
+            self.__user.save(update_fields=["balance"])
 
-    def increase_balance(self, amount):
-        self.__user.balance += Decimal(amount)
-        self.__user.save(update_fields=["balance"])
-
-    def decrease_balance(self, amount):
-        amount = Decimal(amount)
-        if self.__user.balance < amount:
-            raise ValueError("Saldo tidak mencukupi.")
-        self.__user.balance -= amount
-        self.__user.save(update_fields=["balance"])
-
-Penjelasan:
+Penjelasan:  
 - Data user disimpan dalam atribut private __user.
 - Saldo tidak diubah langsung dari view.
 - Perubahan saldo dilakukan melalui method increase_balance() dan decrease_balance().
@@ -152,10 +153,12 @@ wallet/abstractions.py
 Kode:  
 from abc import ABC, abstractmethod
 
+'''
 class TransactionInterface(ABC):
     @abstractmethod
     def process(self):
         pass
+'''
 
 Penjelasan:
 - TransactionInterface adalah abstract class.
@@ -166,19 +169,19 @@ Penjelasan:
 Class BaseTransaction juga menjadi dasar transaksi.
 
 Kode:  
-class BaseTransaction(TransactionInterface):  
-    prefix = "TRX"  
 
-    def __init__(self, user, amount, target_user=None, description=""):
-        self.user = user
-        self.amount = amount
-        self.target_user = target_user
-        self.description = description
-
-    def generate_code(self):
-        timestamp = timezone.now().strftime("%Y%m%d%H%M%S%f")
-        random_number = random.randint(100, 999)
-        return f"{self.prefix}-{timestamp}{random_number}"
+     class BaseTransaction(TransactionInterface):  
+        prefix = "TRX"  
+        def __init__(self, user, amount, target_user=None, description=""):
+            self.user = user
+            self.amount = amount
+            self.target_user = target_user
+            self.description = description
+    
+        def generate_code(self):
+            timestamp = timezone.now().strftime("%Y%m%d%H%M%S%f")
+            random_number = random.randint(100, 999)
+            return f"{self.prefix}-{timestamp}{random_number}"
 
 Penjelasan:
 - BaseTransaction menyimpan data dasar transaksi.
