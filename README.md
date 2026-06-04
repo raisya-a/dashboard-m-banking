@@ -8,7 +8,11 @@
 - Muhammad Hisyam (25051204169) 
 - Raisya Azelia Huwaida (25051204198)
 
-3. Fitur Utama: Login Akun, Top up saldo, Transfer saldo, Cek saldo, Cek History
+3. Fitur Utama:
+- Login akun 
+- Membuat akun 
+- Fitur User : Top up saldo, Transfer saldo, Cek saldo, Cek History.
+- Fitur Admin : Melihat data user, Mengedit data user, Memblokir user, Melihat data admin, Mengedit data admin, Menambahkan akun admin baru, Melihat aktivitas login, Melihat history transaksi user, Melakukan search dengan filter, Search user berdasarkan username/email, Menyetujui dan menolak top up user.
 
 4. Cara Menjalankan Project:
 1) Buka Vscode
@@ -20,18 +24,286 @@
 7) Paste http://127.0.0.1:8000/ di browser
 8) Dashboard sudah bisa dijalankan
 9) Akun yang tersedia :
-- Role Admin :
-  user: admin
-  password: admin 123
-- Role User :
-  user: user
-  password: user123
+- Role Admin : (user: admin, password: admin 123)
+- Role User : (user: user, password: user123)
 
 5. Penjelasan Implementasi OOP:
-- Enkapsulasi: enkapsulasi pada program diterapkan dengan membungkus data sensitif seperti saldo, nomor akun, dan riwayat transaksi ke dalam kelas model tertentu (misalnya kelas Wallet di models.py), di mana data tersebut tidak boleh diubah secara sembarangan dari luar tanpa melalui metode validasi yang aman. Segala perubahan saldo atau pembaruan status akun wajib melewati fungsi internal yang telah ditentukan di dalam kelas tersebut atau melalui berkas services.py guna menjaga integritas dan keamanan data finansial pengguna.
-- Inheritance: ineritance digunakan secara intensif di seluruh struktur Django, di mana kelas-kelas yang dibuat di models.py (seperti kelas pengguna atau kelas transaksi) mewarisi (inherit) properti dan fungsi dari kelas induk bawaan Django yaitu models.Model. Dengan memanfaatkan konsep ini, tidak perlu lagi menulis ulang kode dasar untuk terhubung ke database, melakukan pencarian data, atau menyimpan riwayat transaksi baru, karena semua kemampuan database tersebut otomatis diwarisi oleh kelas anak yang telah dibuat.
-- Polimorfisme: polimorfisme terjadi ketika berbagai objek dalam aplikasi E-Wallet merespons perintah yang sama dengan cara atau hasil yang berbeda sesuai dengan karakteristiknya masing-masing. Sebagai contoh, fungsi standar __str__() atau metode pemrosesan transaksi dapat diterapkan pada kelas TransferTransaction maupun TopUpTransaction; meskipun nama fungsinya sama, sistem akan menghasilkan format teks atau logika perhitungan yang berbeda secara otomatis tergantung pada jenis objek transaksi yang sedang diproses.
-- Abstraksi: abstraksi pada program diimplementasikan melalui penggunaan Service Layer pada berkas services.py, yang berfungsi menyembunyikan detail logika pemrograman yang rumit dan hanya menyediakan fungsi sederhana untuk digunakan oleh bagian lain. Ketika pengguna melakukan transfer, bagian tampilan halaman web (views.py) hanya perlu memanggil satu baris fungsi abstrak seperti perintah transfer dana, tanpa perlu mengetahui rumitnya proses pengecekan kecukupan saldo, penguncian database, hingga kalkulasi pengurangan dan penambahan saldo di balik layar.
+
+1. Inheritance / Pewarisan
+Inheritance adalah konsep ketika sebuah class mewarisi sifat atau fungsi dari class lain. Pada project ini, inheritance diterapkan di beberapa bagian.
+
+Contoh 1: Custom User
+
+File:
+accounts/models.py
+
+Class User mewarisi AbstractUser dari Django.
+
+Kode:
+class User(AbstractUser):
+
+Artinya:
+- User tetap memiliki fitur bawaan Django seperti username, password, login, dan authentication.
+- Lalu ditambahkan field khusus aplikasi e-wallet seperti full_name, phone, pin, role, balance, status, blocked_reason, dan blocked_at.
+
+Jadi, class User mewarisi fitur bawaan Django, lalu dikembangkan sesuai kebutuhan aplikasi.
+
+
+Contoh 2: Form Django
+
+File:
+accounts/forms.py
+wallet/forms.py
+reports/forms.py
+
+Beberapa form mewarisi class bawaan Django.
+
+Contoh:
+class RegisterForm(forms.ModelForm):
+class LoginForm(forms.Form):
+class TransferForm(forms.Form):
+class TopUpForm(forms.Form):
+class ReportForm(forms.Form):
+
+Artinya:
+- Form project mewarisi kemampuan validasi dari Django Form.
+- Kita tinggal menambahkan field dan aturan validasi sendiri.
+- Contohnya validasi password, konfirmasi password, PIN, nominal transfer, dan data user.
+
+
+Contoh 3: Class Transaksi
+
+File:
+wallet/transaction_types.py
+wallet/abstractions.py
+
+Class transaksi seperti TopUpTransaction, TransferInTransaction, dan TransferOutTransaction mewarisi BaseTransaction.
+
+Contoh:
+class TopUpTransaction(BaseTransaction):
+class TransferInTransaction(BaseTransaction):
+class TransferOutTransaction(BaseTransaction):
+
+Artinya:
+- Semua transaksi mewarisi atribut dan method dasar dari BaseTransaction.
+- Contohnya user, amount, target_user, description, dan generate_code().
+- Setiap class transaksi tinggal membuat prosesnya masing-masing melalui method process().
+
+
+Kesimpulan Inheritance:
+Inheritance diterapkan agar class baru bisa memakai fitur class induk, sehingga kode lebih rapi dan tidak perlu menulis ulang fungsi yang sama.
+
+
+2. Encapsulation / Enkapsulasi
+Encapsulation adalah konsep membungkus data dan proses di dalam class, sehingga data tidak diubah sembarangan dari luar. Pada project ini, encapsulation diterapkan pada service layer.
+
+Contoh utama:
+
+File:
+wallet/services.py
+
+Class:
+WalletService
+
+Kode:
+class WalletService:
+    def __init__(self, user):
+        self.__user = user
+
+    def get_balance(self):
+        return self.__user.balance
+
+    def increase_balance(self, amount):
+        self.__user.balance += Decimal(amount)
+        self.__user.save(update_fields=["balance"])
+
+    def decrease_balance(self, amount):
+        amount = Decimal(amount)
+        if self.__user.balance < amount:
+            raise ValueError("Saldo tidak mencukupi.")
+        self.__user.balance -= amount
+        self.__user.save(update_fields=["balance"])
+
+Penjelasan:
+- Data user disimpan dalam atribut private __user.
+- Saldo tidak diubah langsung dari view.
+- Perubahan saldo dilakukan melalui method increase_balance() dan decrease_balance().
+- Jika saldo tidak cukup, method decrease_balance() akan menolak transaksi.
+
+Contoh penggunaan:
+TransferService tidak langsung mengubah saldo dengan cara asal-asalan.
+TransferService memanggil:
+
+WalletService(sender).decrease_balance(amount)
+WalletService(receiver).increase_balance(amount)
+
+Artinya:
+- Saldo pengirim dikurangi lewat method khusus.
+- Saldo penerima ditambah lewat method khusus.
+- Logic validasi saldo tetap aman di dalam class.
+
+Kesimpulan Encapsulation:
+Encapsulation diterapkan agar data penting seperti saldo wallet tidak diubah langsung dari sembarang tempat, tetapi melalui method yang sudah memiliki aturan validasi.
+
+
+3. Abstraction / Abstraksi
+
+Abstraction adalah konsep menyembunyikan detail proses dan hanya menampilkan fungsi penting yang perlu dipakai.
+
+Pada project ini, abstraction diterapkan pada class transaksi.
+
+File:
+wallet/abstractions.py
+
+Kode:
+from abc import ABC, abstractmethod
+
+class TransactionInterface(ABC):
+    @abstractmethod
+    def process(self):
+        pass
+
+Penjelasan:
+- TransactionInterface adalah abstract class.
+- Method process() dibuat sebagai abstract method.
+- Artinya setiap class transaksi wajib memiliki method process().
+- Detail isi process() berbeda-beda tergantung jenis transaksi.
+
+Class BaseTransaction juga menjadi dasar transaksi.
+
+Kode:
+class BaseTransaction(TransactionInterface):
+    prefix = "TRX"
+
+    def __init__(self, user, amount, target_user=None, description=""):
+        self.user = user
+        self.amount = amount
+        self.target_user = target_user
+        self.description = description
+
+    def generate_code(self):
+        timestamp = timezone.now().strftime("%Y%m%d%H%M%S%f")
+        random_number = random.randint(100, 999)
+        return f"{self.prefix}-{timestamp}{random_number}"
+
+Penjelasan:
+- BaseTransaction menyimpan data dasar transaksi.
+- BaseTransaction menyediakan method generate_code().
+- Setiap transaksi tidak perlu membuat kode transaksi dari nol.
+- Yang wajib diatur oleh class turunan hanyalah process().
+
+Contoh:
+File:
+wallet/transaction_types.py
+
+Class:
+TopUpTransaction
+TransferInTransaction
+TransferOutTransaction
+
+Masing-masing class memiliki method process().
+
+Kesimpulan Abstraction:
+Abstraction diterapkan agar view/service cukup memanggil method process(), tanpa perlu tahu detail bagaimana transaksi top up, transfer masuk, atau transfer keluar disimpan ke database.
+
+
+4. Polymorphism / Polimorfisme
+
+Polymorphism adalah konsep ketika beberapa class memiliki method yang sama, tetapi isi dan hasilnya berbeda.
+
+Pada project ini, polymorphism diterapkan pada method process() di class transaksi.
+
+File:
+wallet/transaction_types.py
+
+Class:
+TopUpTransaction
+TransferInTransaction
+TransferOutTransaction
+
+Ketiganya sama-sama memiliki method:
+
+process()
+
+Tetapi isi prosesnya berbeda.
+
+Contoh 1:
+TopUpTransaction.process()
+
+Fungsi:
+- Membuat data transaksi top up.
+- Jenis transaksi adalah topup.
+- Deskripsi transaksi adalah top up saldo berhasil.
+
+Contoh 2:
+TransferOutTransaction.process()
+
+Fungsi:
+- Membuat data transaksi keluar.
+- Jenis transaksi adalah transfer_out.
+- Digunakan untuk pengirim.
+- Saldo setelah transaksi adalah saldo pengirim setelah dikurangi.
+
+Contoh 3:
+TransferInTransaction.process()
+
+Fungsi:
+- Membuat data transaksi masuk.
+- Jenis transaksi adalah transfer_in.
+- Digunakan untuk penerima.
+- Saldo setelah transaksi adalah saldo penerima setelah bertambah.
+
+Walaupun method yang dipanggil sama, yaitu process(), hasilnya berbeda sesuai object transaksi.
+
+Contoh konsep:
+transactions = [
+    TopUpTransaction(user, 50000),
+    TransferOutTransaction(sender, 25000, receiver),
+    TransferInTransaction(receiver, 25000, sender),
+]
+
+for transaction in transactions:
+    transaction.process()
+
+Penjelasan:
+- Semua object dipanggil dengan method yang sama, yaitu process().
+- Tetapi setiap object menjalankan proses berbeda sesuai class masing-masing.
+
+Kesimpulan Polymorphism:
+Polymorphism diterapkan agar beberapa jenis transaksi bisa diproses dengan nama method yang sama, tetapi menghasilkan data transaksi yang berbeda sesuai jenisnya.
+
+
+KESIMPULAN AKHIR
+
+Project e-wallet ini menerapkan 4 konsep utama OOP:
+
+1. Inheritance
+Diterapkan pada:
+- User yang mewarisi AbstractUser
+- Form yang mewarisi forms.Form atau forms.ModelForm
+- Class transaksi yang mewarisi BaseTransaction
+
+2. Encapsulation
+Diterapkan pada:
+- WalletService
+- Saldo user tidak diubah langsung dari view
+- Perubahan saldo dilakukan lewat increase_balance() dan decrease_balance()
+
+3. Abstraction
+Diterapkan pada:
+- TransactionInterface
+- BaseTransaction
+- Method abstract process()
+- Service/view cukup memanggil process() tanpa mengetahui detail transaksi
+
+4. Polymorphism
+Diterapkan pada:
+- TopUpTransaction.process()
+- TransferInTransaction.process()
+- TransferOutTransaction.process()
+- Method sama, tetapi isi proses berbeda
+
+Dengan penerapan OOP ini, kode project menjadi lebih rapi, mudah dipahami, mudah dikembangkan, dan logic bisnis seperti transfer, top up, saldo, dan transaksi menjadi lebih terstruktur.
 
 6. Screenshot Tampilan Program:
 - Dashboard User
