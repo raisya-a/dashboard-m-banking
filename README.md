@@ -153,12 +153,12 @@ wallet/abstractions.py
 Kode:  
 from abc import ABC, abstractmethod
 
-'''
+```python
 class TransactionInterface(ABC):
     @abstractmethod
     def process(self):
         pass
-'''
+```
 
 Penjelasan:
 - TransactionInterface adalah abstract class.
@@ -170,7 +170,8 @@ Class BaseTransaction juga menjadi dasar transaksi.
 
 Kode:  
 
-     class BaseTransaction(TransactionInterface):  
+```python
+class BaseTransaction(TransactionInterface):  
         prefix = "TRX"  
         def __init__(self, user, amount, target_user=None, description=""):
             self.user = user
@@ -182,6 +183,7 @@ Kode:
             timestamp = timezone.now().strftime("%Y%m%d%H%M%S%f")
             random_number = random.randint(100, 999)
             return f"{self.prefix}-{timestamp}{random_number}"
+```
 
 Penjelasan:
 - BaseTransaction menyimpan data dasar transaksi.
@@ -249,6 +251,7 @@ Fungsi:
 Walaupun method yang dipanggil sama, yaitu process(), hasilnya berbeda sesuai object transaksi.
 
 Contoh konsep:  
+```python
 transactions = [
     TopUpTransaction(user, 50000),
     TransferOutTransaction(sender, 25000, receiver),
@@ -257,7 +260,7 @@ transactions = [
 
 for transaction in transactions:
     transaction.process()
-
+```
 Penjelasan:
 - Semua object dipanggil dengan method yang sama, yaitu process().
 - Tetapi setiap object menjalankan proses berbeda sesuai class masing-masing.
